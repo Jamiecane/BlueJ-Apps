@@ -1,16 +1,18 @@
-
+import java.util.Random;
 /**
- * Demonstrate the StockManager and Product classes.
+ * Demonstrate the StockList and Product classes.
  * The demonstration becomes properly functional as
- * the StockManager class is completed.
+ * the StockList class is completed.
  * 
- * @author David J. Barnes and Michael Kölling.
- * @version 2016.02.29
+ * @author Jamie Cane
+ * @version 2021-11-12
  */
 public class StockDemo
 {
     // The stock manager.
     private StockList stock;
+    
+    private Random generator = new Random();
 
     /**
      * Create a StockManager and populate it with at least
@@ -18,14 +20,22 @@ public class StockDemo
      */
     public StockDemo(StockList stock)
     {
+    
         this.stock = stock;
         
         // Add at least 10 products, they must be unique to you
         // Make sure the ids are sequential numbers
         
-        stock.add(new Product(101, "Samsung Galaxy S20"));
-        stock.add(new Product(102, "Apple iPhone 12"));
-        stock.add(new Product(103, "Google Pixel 4A"));
+    stock.add(new Product(100, "Xbox One: Red Dead Redemption 2"));
+    stock.add(new Product(101, "PS4: Fifa 22"));
+    stock.add(new Product(102, "Nintendo Wii: Wii Sports"));
+    stock.add(new Product(103, "Nintendo Switch: Mario Kart 8"));
+    stock.add(new Product(104, "PS5: Call Of Duty - Vanguard"));
+    stock.add(new Product(105, "Xbox Series S: Halo Infinite"));
+    stock.add(new Product(106, "PS4: FarCry 6"));
+    stock.add(new Product(107, "Nintendo Switch: Metroid Dread"));
+    stock.add(new Product(108, "Xbox 360: Fallout New Vegas"));
+    stock.add(new Product(109, "Xbox One: Crash Team Racing - Remastered"));    
     }
     
     /**
@@ -48,11 +58,54 @@ public class StockDemo
         stock.print();        
     }
     
+    /**
+     * These methods will buy different quantities of
+     * each of the products in the stock list.
+     */
     private void buyProducts()
     {
+        Product product;
+        int quantity = 1;
+        
+        for(int id = 100; id <= 109; id++)
+        {
+            product = stock.findProduct(id);
+            
+            if(product == null)
+            {
+                System.out.println("Product " + id + " Not found");
+            }
+            else
+            {
+               quantity = generator.nextInt(15);
+               stock.buyProduct(id, quantity);
+            }
+        }
     }
 
+    /**
+     * Thise method will sell different quantities of
+     * each of the products in the stock list.
+     */    
     private void sellProducts()
     {
+        Product product;
+        int quantity = 1;
+        
+        for(int id = 100; id <= 110; id++)
+        {
+            product = stock.findProduct(id);
+            
+            if(product == null)
+            {
+                System.out.println("Product " + id + " Not found");
+            }
+            else
+            {
+               quantity = generator.nextInt(16);
+               stock.sellProduct(id, quantity);
+            }
+        }
+        
     }    
 }

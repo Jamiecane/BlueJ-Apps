@@ -1,17 +1,18 @@
 import java.util.ArrayList;
-
+import java.util.Random;
 /**
  * Manage the stock in a business.
  * The stock is described by zero or more Products.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author (Jamie Cane) 
+ * @version (14.11.21)
  */
 public class StockList
 {
     // A list of the products.
     private ArrayList<Product> stock;
-
+    private Random generator = new Random();
+    
     /**
      * Initialise the stock manager.
      */
@@ -46,6 +47,18 @@ public class StockList
      */
     public void buyProduct(int productID, int amount)
     {
+        Product product = findProduct(productID);
+    
+        if(product == null)
+        {
+            System.out.println(product + "NOT FOUND ");
+        }
+        else
+        {
+            product.increaseQuantity(amount);
+            System.out.println("Bought " + amount + " " + product);
+            
+        }
     }
     
     /**
@@ -54,6 +67,12 @@ public class StockList
      */
     public Product findProduct(int productID)
     {
+        for(Product product : stock)
+        {
+            if(product.getID() == productID)
+                return product;
+        }
+        
         return null;
     }
     
@@ -63,21 +82,33 @@ public class StockList
      * Show the before and after status of the product.
      * @param id The ID of the product being sold.
      */
-    public void sellProduct(int productID)
+    public void sellProduct(int productID, int sellQuantity)
     {
+        System.out.println("Selling Quanitities of Stock\n");
+        
         Product product = findProduct(productID);
+        int stockQuantity = product.getQuantity();
         
         if(product != null) 
         {
-            if(product.getQuantity() > 0)
+            if(stockQuantity > 0)
             {
-                product.decreaseQuantity(1);
-                
-                // printout message
+                if(stockQuantity > sellQuantity)
+                {
+                    product.decreaseQuantity(sellQuantity);
+                    System.out.println("Selling " + sellQuantity + " " + product.getID());
+                    
+                }
+                else
+                {
+                    System.out.println("All stock is sold!!");
+                    System.out.println("Selling " + stockQuantity + " " + product.getID());
+                    product.decreaseQuantity(stockQuantity);
+                }   
             }
             else
             {
-                // printout message
+                System.out.println("Selling none of " + product.getID());
             }
         }
         else
@@ -86,6 +117,12 @@ public class StockList
         }
     }    
 
+    public void search(String phrase)
+    {
+        if(phrase.contains("Samsung"))
+        {
+        }
+    }
     
     /**
      * Locate a product with the given ID, and return how
@@ -133,7 +170,7 @@ public class StockList
     public void printHeading()
     {
         System.out.println();
-        System.out.println(" Peacock's Stock List");
+        System.out.println(" Jamie's Stock List");
         System.out.println(" ====================");
         System.out.println();
     }
